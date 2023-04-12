@@ -1,4 +1,4 @@
-package org.jetbrains.base64
+package com.bandor.base64
 import java.util.*
 
 actual object Base64Factory {

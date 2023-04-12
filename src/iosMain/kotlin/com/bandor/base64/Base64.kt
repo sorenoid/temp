@@ -1,8 +1,8 @@
-package org.jetbrains.base64
+package com.bandor.base64
 
-private val BASE64_ALPHABET: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-private val BASE64_MASK: Byte = 0x3f
-private val BASE64_PAD: Char = '='
+private const val BASE64_ALPHABET: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+private const val BASE64_MASK: Byte = 0x3f
+private const val BASE64_PAD: Char = '='
 private val BASE64_INVERSE_ALPHABET = IntArray(256) {
     BASE64_ALPHABET.indexOf(it.toChar())
 }

@@ -1,4 +1,4 @@
-package org.jetbrains.base64
+package com.bandor.base64
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

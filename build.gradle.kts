@@ -1,41 +1,53 @@
-plugins {
-    kotlin("multiplatform") version "1.8.0"
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.3.1")
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
 }
 
 group = "me.sorenoid"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+plugins {
+    kotlin("multiplatform") version "1.8.0"
+    id("com.android.library") version "7.3.1"
+}
+
+android {
+    compileSdk = 33
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 33
+    }
+
+    compileOptions {
+        // Sets Java compatibility to Java 8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 kotlin {
-    jvm {
-        jvmToolchain(8)
-        withJava()
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-    }
-    js(BOTH) {
-        browser {
-            commonWebpackConfig {
-                cssSupport {
-                    enabled.set(true)
-                }
+    ios {
+        binaries {
+            framework {
+                baseName = "fooey"
             }
         }
     }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
+    android()
 
-    
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -43,11 +55,14 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
-        val jvmTest by getting
-        val jsMain by getting
-        val jsTest by getting
-        val nativeMain by getting
-        val nativeTest by getting
+        val androidMain by getting
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation("junit:junit:4.12")
+            }
+        }
+        val iosMain by getting
+        val iosTest by getting
     }
 }
+
